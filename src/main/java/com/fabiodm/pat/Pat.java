@@ -115,7 +115,9 @@ public final class Pat implements PatClient {
     @Override
     public void unregister(final Object object) {
         final PatHandler handler = this.listeners.get(object.getClass());
-        if (handler == null) return;
+        if (handler == null) {
+            return;
+        }
 
         this.listeners.remove(object.getClass());
         handler.getChannels().forEach(this::unsubscribe);
@@ -126,9 +128,12 @@ public final class Pat implements PatClient {
                                    final String channel,
                                    final Consumer<PatEvent> consumer) {
         final PatHandler handler = this.listeners.get(listener.getClass());
-        if (handler == null) return;
+        if (handler == null) {
+            return;
+        }
 
         this.subscribe(channel);
+
         handler.registerSubscription(channel, new ConsumerSubscription(consumer));
     }
 
